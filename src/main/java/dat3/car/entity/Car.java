@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Entity
-public class Car {
+public class Car extends AdminDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,10 +26,6 @@ public class Car {
     private double pricePrDay;
     @Column( name = "max_discount")
     private int bestDiscount;
-    @CreationTimestamp
-    private LocalDateTime created;
-    @UpdateTimestamp
-    private LocalDateTime lastEdited;
 
     public Car (String brand, String model, double pricePrDay, int bestDiscount){
         this.brand = brand;

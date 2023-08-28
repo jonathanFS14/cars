@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @Entity
-public class Member {
+public class Member extends AdminDetails {
 
     @Id
     private String username;
@@ -27,10 +27,6 @@ public class Member {
     private String zip;
     private boolean approved;
     private int ranking;
-    @CreationTimestamp
-    private LocalDateTime created;
-    @UpdateTimestamp
-    private LocalDateTime lastEdited;
 
     public Member(String user, String password, String email, String firstName,
                   String lastName, String street, String city, String zip) {
