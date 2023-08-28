@@ -20,7 +20,7 @@ class MemberController {
     //Security admin
     @GetMapping
     List<MemberResponse> getMembers(){
-        return memberService.getMembers(/*include all*/false);
+        return memberService.getMembers(/*include all fields*/false);
     }
 
     //Security admin
@@ -43,16 +43,14 @@ class MemberController {
     //Security ????
     @PatchMapping("/ranking/{username}/{value}")
     ResponseEntity<Boolean> setRankingForUser(@PathVariable String username, @PathVariable int value) {
-        return null;
+        return memberService.rankingForUser(username,value);
     }
 
     // Security ????
     @DeleteMapping("/{username}")
     void deleteMemberByUsername(@PathVariable String username) {
-
+        memberService.deleteMember(username);
     }
-
-
 
 }
 

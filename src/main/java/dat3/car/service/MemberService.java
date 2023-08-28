@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,5 +60,19 @@ public class MemberService {
         Member member = memberRepository.findById(username).
                 orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this username does not exist"));
         return new MemberResponse(member, true);
+    }
+
+    public void deleteMember(String username) {
+        Member member = memberRepository.findById(username).
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this username or credentials does not exist"));
+        memberRepository.delete(member);
+    }
+
+    public ResponseEntity<Boolean> rankingForUser(String username, int value) {
+        Member member = memberRepository.findById(username).
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this credentials does not exist"));
+        member.setRanking(value);
+        memberRepository.save(member);
+        return ResponseEntity.ok(true);
     }
 }
