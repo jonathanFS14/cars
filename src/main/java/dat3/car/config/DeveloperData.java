@@ -49,8 +49,6 @@ public class DeveloperData implements ApplicationRunner {
                 "bovej12", "københavn", "2350"));
         memberList.add(new Member("lene123", "1234", "lene@hotmail.dk", "lene", "lenesen",
                 "lenevej12", "københavn", "2350"));
-
         memberRepository.saveAll(memberList);
-
     }
 }
