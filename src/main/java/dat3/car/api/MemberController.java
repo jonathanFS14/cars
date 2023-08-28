@@ -28,25 +28,25 @@ class MemberController {
     MemberResponse getMemberById(@PathVariable String username) throws Exception {
         return memberService.findById(username);}
 
-    //Security --> ??????
+    //Security user
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     MemberResponse addMember(@RequestBody MemberRequest body){
         return memberService.addMember(body);
     }
 
-    //Security ???
+    //Security user
     @PutMapping("/{username}")
     ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
         return memberService.editMember(body,username);
     }
 
-    //Security ????
+    //Security user
     @PatchMapping("/ranking/{username}/{value}")
     ResponseEntity<Boolean> setRankingForUser(@PathVariable String username, @PathVariable int value) {
         return memberService.rankingForUser(username,value);
     }
 
-    // Security ????
+    // Security admin
     @DeleteMapping("/{username}")
     void deleteMemberByUsername(@PathVariable String username) {
         memberService.deleteMember(username);

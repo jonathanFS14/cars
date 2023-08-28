@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarResponse {
 
+    Integer id;
     String brand;
     String model;
     Double pricePrDay;
-    Integer besDiscount;
+    Integer bestDiscount;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss",shape = JsonFormat.Shape.STRING)
     LocalDateTime created;
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm:ss",shape = JsonFormat.Shape.STRING)
@@ -27,10 +28,11 @@ public class CarResponse {
         this.brand = car.getBrand();
         this.model = car.getModel();
         if (includeAll){
+            this.id = car.getId();
             this.created = car.getCreated();
             this.edited = car.getEdited();
             this.pricePrDay = car.getPricePrDay();
-            this.besDiscount = car.getBestDiscount();
+            this.bestDiscount = car.getBestDiscount();
         }
     }
 }
