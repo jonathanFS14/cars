@@ -28,19 +28,19 @@ class MemberController {
     MemberResponse getMemberById(@PathVariable String username) throws Exception {
         return memberService.findById(username);}
 
-    //Security user
+    //Security anonymous
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     MemberResponse addMember(@RequestBody MemberRequest body){
         return memberService.addMember(body);
     }
 
-    //Security user
+    //Security admin
     @PutMapping("/{username}")
     ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
         return memberService.editMember(body,username);
     }
 
-    //Security user
+    //Security admin
     @PatchMapping("/ranking/{username}/{value}")
     ResponseEntity<Boolean> setRankingForUser(@PathVariable String username, @PathVariable int value) {
         return memberService.rankingForUser(username,value);
