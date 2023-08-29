@@ -3,7 +3,6 @@ package dat3.car.service;
 import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.entity.Car;
-import dat3.car.entity.Member;
 import dat3.car.repository.CarRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +44,7 @@ public class CarService {
 
     public ResponseEntity<Boolean> editCar(CarRequest body, int id) {
         Car car = carRepository.findById(id).
-                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this username does not exist"));
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"car with this id does not exist"));
         car.setBrand(body.getBrand());
         car.setModel(body.getModel());
         car.setPricePrDay(body.getPricePrDay());
@@ -54,5 +53,18 @@ public class CarService {
         return ResponseEntity.ok(true);
     }
 
-    // TODO missing patch and delete methods
+    public ResponseEntity<Boolean> setBestDiscount(int id, int value) {
+        Car car = carRepository.findById(id).
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"car with this credentials does not exist"));
+        car.setBestDiscount(value);
+        carRepository.save(car);
+        return ResponseEntity.ok(true);
+    }
+
+    public void deleteCar(int id) {
+        Car car = carRepository.findById(id).
+                orElseThrow(()-> new ResponseStatusException(HttpStatus.BAD_REQUEST,"car with this id does not exist"));
+        carRepository.delete(car);
+    }
+
 }

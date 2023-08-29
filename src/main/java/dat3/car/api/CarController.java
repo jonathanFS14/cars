@@ -39,6 +39,15 @@ public class CarController {
         return carService.editCar(body,id);
     }
 
-    // TODO missing patch and delete methods
+    @PatchMapping("/bestdiscount/{id}/{value}")
+    ResponseEntity<Boolean> setBestDiscount(@PathVariable int id, @PathVariable int value) {
+        return carService.setBestDiscount(id,value);
+    }
+
+    // Security admin
+    @DeleteMapping("/{id}")
+    void deleteCarById(@PathVariable int id) {
+        carService.deleteCar(id);
+    }
 
 }
