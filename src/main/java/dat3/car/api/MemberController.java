@@ -43,7 +43,7 @@ class MemberController {
     //Security admin
     @PatchMapping("/ranking/{username}/{value}")
     ResponseEntity<Boolean> setRankingForUser(@PathVariable String username, @PathVariable int value) {
-        return memberService.rankingForUser(username,value);
+        return memberService.setRankingForUser(username,value);
     }
 
     // Security admin

@@ -19,13 +19,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class MemberServiceTest {
-
+class MemberServiceMockitoTest {
     //  @InjectMocks
     private MemberService memberService;
     @Mock
     private MemberRepository memberRepository;
-
     @BeforeEach
     void setUp() {
         memberService = new MemberService(memberRepository);
@@ -85,7 +83,7 @@ class MemberServiceTest {
 
     @Test
     void editMember() {
-        //TODO
+        // TODO
     }
 
     @Test
@@ -96,7 +94,7 @@ class MemberServiceTest {
         int testRanking = 5;
         // Mock the behavior of memberRepository to save the testMember.
         when(memberRepository.save(m1)).thenReturn(m1);
-        memberService.rankingForUser("user1", testRanking);
+        memberService.setRankingForUser("user1", testRanking);
         assertEquals(testRanking, m1.getRanking());
         // Verify that memberRepository's save method was called with the testMember.
         verify(memberRepository).save(m1);
@@ -108,7 +106,7 @@ class MemberServiceTest {
         // Mock the behavior of memberRepository to return an empty Optional when findById is called with testUsername.
         when(memberRepository.findById(testUsername)).thenReturn(Optional.empty());
         // Assert that the method throws a ResponseStatusException with a BAD_REQUEST status.
-        assertThrows(ResponseStatusException.class, () -> memberService.rankingForUser(testUsername, 5));
+        assertThrows(ResponseStatusException.class, () -> memberService.setRankingForUser(testUsername, 5));
     }
 
     @Test
