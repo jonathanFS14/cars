@@ -1,5 +1,3 @@
-# cars project 
-
 - The idea with, and reasons for why to use, a ORM-mapper
 
   Object-relationel mapping (ORM), et system der kan bruges til at konvertere mellem objekter i et programmeringssprog (Java) og en relationel database (MySQL). Der findes mange forskellige ORMs, et 
