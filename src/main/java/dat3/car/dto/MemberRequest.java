@@ -8,11 +8,12 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor //must have for builder annotation
 @Builder
+@ToString
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberRequest {
     String username;
-    String email;
     String password;
+    String email;
     String firstName;
     String lastName;
     String street;

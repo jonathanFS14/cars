@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor //A must for @Builder
 @Builder  //I will demo it's purpose in the class
+@ToString
 //It's really IMPORTANT that you understand the purpose of this annotation
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class MemberResponse {

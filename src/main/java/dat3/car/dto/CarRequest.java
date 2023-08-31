@@ -1,13 +1,14 @@
 package dat3.car.dto;
 
 import dat3.car.entity.Car;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor //must have for builder annotation
+@Builder
+@ToString
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarRequest {
     String brand;

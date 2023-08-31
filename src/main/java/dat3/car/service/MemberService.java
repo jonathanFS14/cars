@@ -49,8 +49,7 @@ public class MemberService {
     }
 
     public ResponseEntity<Boolean> editMember(MemberRequest body, String username) {
-        Member member = memberRepository.findById(username).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this username does not exist"));
+        Member member = getMemberByUsername(username);
         if (!body.getUsername().equals(username)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot change username");
         }
@@ -66,20 +65,17 @@ public class MemberService {
     }
 
     public MemberResponse findById(String username) {
-        Member member = memberRepository.findById(username).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username does not exist"));
+        Member member = getMemberByUsername(username);
         return new MemberResponse(member, true);
     }
 
     public void deleteMember(String username) {
-        Member member = memberRepository.findById(username).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this username or credentials does not exist"));
+        Member member = getMemberByUsername(username);
         memberRepository.delete(member);
     }
 
     public ResponseEntity<Boolean> setRankingForUser(String username, int value) {
-        Member member = memberRepository.findById(username).
-                orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this credentials does not exist"));
+        Member member = getMemberByUsername(username);
         member.setRanking(value);
         memberRepository.save(member);
         return ResponseEntity.ok(true);
@@ -89,6 +85,5 @@ public class MemberService {
         return memberRepository.findById(username).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username does not exist"));
     }
-
 
 }

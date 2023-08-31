@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -25,11 +23,11 @@ class MemberServiceH2Test {
     MemberRepository memberRepository;
     MemberService memberService;
 
-    Member m1, m2;  //Talk about references in Java for why we don't add the "isInitialize flag"
+    Member m1, m2;
 
     @BeforeEach
     void setUp() {
-        m1 = memberRepository.save(new Member("user1", "pw1", "email1", "fn1", "ln1",  "street1", "city1", "zip1"));
+        m1 = memberRepository.save(new Member("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1"));
         m2 = memberRepository.save(new Member("user2", "pw2", "email1", "fn2", "ln2", "street2", "city2", "zip2"));
         memberService = new MemberService(memberRepository); //Set up memberService with the mock (H2) database
     }
@@ -50,70 +48,80 @@ class MemberServiceH2Test {
 
     @Test
     void testFindByIdFound() {
-       MemberResponse response = memberService.findById(m1.getUsername());
-       assertEquals("user1", response.getUsername());
+        MemberResponse response = memberService.findById(m1.getUsername());
+        assertEquals("user1", response.getUsername());
     }
 
     @Test
     void testFindByIdNotFound() {
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> memberService.findById("i dont exist"));
         assertEquals(HttpStatus.NOT_FOUND, ex.getStatusCode());
-        //This should test that a ResponseStatus exception is thrown with status= 404 (NOT_FOUND)
-        //TODO
     }
 
     @Test
-        /* Remember MemberRequest comes from the API layer, and MemberResponse is returned to the API layer
-         * Internally addMember savex a Member entity to the database*/
     void testAddMember_UserDoesNotExist() {
-        //Add @AllArgsConstructor to MemberRequest and @Builder to MemberRequest for this to work
-        //TODO
+        MemberRequest m3 = new MemberRequest("user100", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1");
+        MemberResponse response = memberService.addMember(m3);
+        assertEquals("user100", response.getUsername());
+        assertEquals("email1", response.getEmail());
+        assertEquals("city1", response.getCity());
     }
 
     @Test
     void testAddMember_UserDoesExistThrows() {
-        MemberRequest m3 = new MemberRequest("user1", "pw1", "email1", "fn1", "ln1",  "street1", "city1", "zip1");
+        MemberRequest m3 = new MemberRequest("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1");
         ResponseStatusException ex = assertThrows(ResponseStatusException.class, () -> memberService.addMember(m3));
         assertEquals(/*HttpStatus.BAD_REQUEST*/ HttpStatusCode.valueOf(400), ex.getStatusCode());
-        //This should test that a ResponseStatus exception is thrown with status= 400 (BAD_REQUEST)
     }
-
-    // hertil
 
     @Test
     void testEditMemberWithExistingUsername() {
-        //TODO
+        assertEquals(ResponseEntity.ok(true), memberService.editMember
+                (new MemberRequest("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1"), "user1"));
     }
 
     @Test
     void testEditMemberNON_ExistingUsernameThrows() {
-        //This should test that a ResponseStatus exception is thrown with status= 404 (NOT_FOUND)
-        //TODO
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> memberService.editMember
+                (new MemberRequest("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1"), "user111"));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     @Test
     void testEditMemberChangePrimaryKeyThrows() {
-        //Create a MemberRequest from an existing member we can edit
         MemberRequest request = new MemberRequest(m1);
-        //TODO
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                memberService.editMember(request, "user2"));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
     @Test
     void testSetRankingForUser() {
-        //TODO
+        assertEquals(0, m1.getRanking());
+        memberService.setRankingForUser("user1", 100);
+        assertEquals(100, m1.getRanking());
     }
 
     @Test
     void testSetRankingForNoExistingUser() {
-        //TODO
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> memberService.setRankingForUser("does not exist", 5));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
+
     @Test
     void testDeleteMemberByUsername() {
-        //TODO
+        MemberResponse response = memberService.findById("user1");
+        assertEquals("user1", response.getUsername());
+        memberService.deleteMember("user1");
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                memberService.findById("user1"));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
     @Test
     void testDeleteMember_ThatDontExist() {
-        //TODO
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () ->
+                memberService.deleteMember("12222"));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 }
