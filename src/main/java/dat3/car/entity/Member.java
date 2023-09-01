@@ -1,13 +1,17 @@
 package dat3.car.entity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 
 @Entity
 public class Member extends AdminDetails {
@@ -23,6 +27,9 @@ public class Member extends AdminDetails {
     private String zip;
     private boolean approved;
     private int ranking;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Reservation> reservations = new ArrayList<>();
 
     public Member(String user, String password, String email, String firstName,
                   String lastName, String street, String city, String zip) {

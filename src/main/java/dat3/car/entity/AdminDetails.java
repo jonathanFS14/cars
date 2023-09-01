@@ -1,11 +1,13 @@
 package dat3.car.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
 import java.time.LocalDateTime;
 
 /*
@@ -20,10 +22,12 @@ OBSERVE --> The base class is not an entity by itself and is NEVER used directly
 @Setter
 
 @MappedSuperclass
-    public abstract class AdminDetails {
-        @CreationTimestamp
-        protected LocalDateTime created;
-        @UpdateTimestamp
-        protected LocalDateTime edited;
-    }
+public abstract class AdminDetails {
+    @CreationTimestamp
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    protected LocalDateTime created;
+    @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
+    @UpdateTimestamp
+    protected LocalDateTime edited;
+}
 

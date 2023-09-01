@@ -9,7 +9,6 @@ import lombok.ToString;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 
 @Entity
 public class Car extends AdminDetails {
