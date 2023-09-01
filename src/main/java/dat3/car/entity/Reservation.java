@@ -1,5 +1,6 @@
 package dat3.car.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDate;
@@ -22,10 +23,12 @@ public class Reservation extends AdminDetails {
     @ManyToOne(fetch = FetchType.LAZY)
     private Car car;
 
-    private LocalDateTime reservationDateStart;
-    private LocalDateTime reservationDateEnd;
+    @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
+    private LocalDate reservationDateStart;
+    @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
+    private LocalDate reservationDateEnd;
 
-    public Reservation(Member member, Car car, LocalDateTime reservationDateStart, LocalDateTime reservationDateEnd) {
+    public Reservation(Member member, Car car, LocalDate reservationDateStart, LocalDate reservationDateEnd) {
         this.member = member;
         this.car = car;
         this.reservationDateStart = reservationDateStart;

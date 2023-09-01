@@ -6,6 +6,7 @@ import dat3.car.entity.Member;
 import dat3.car.entity.Reservation;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -22,9 +23,9 @@ public class ReservationResponse {
     MemberResponse member;
     CarResponse car;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
-    LocalDateTime reservationDateStart;
+    LocalDate reservationDateStart;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
-    LocalDateTime reservationDateEnd;
+    LocalDate reservationDateEnd;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     LocalDateTime created;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)

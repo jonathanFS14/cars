@@ -6,6 +6,8 @@ import dat3.car.entity.Reservation;
 import dat3.car.repository.ReservationRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ReservationService {
 
@@ -20,5 +22,12 @@ public class ReservationService {
         Reservation newReservation = ReservationRequest.getReservationEntity(body);
         newReservation = reservationRepository.save(newReservation);
         return new ReservationResponse(newReservation, true, true, true);
+    }
+
+    public List<ReservationResponse> getReservations() {
+        List<Reservation> reservations = reservationRepository.findAll();
+        List<ReservationResponse> response =
+                reservations.stream().map(( (reservation) -> new ReservationResponse(reservation, true, true, true))).toList();
+        return response;
     }
 }

@@ -67,12 +67,12 @@ public class DeveloperData implements ApplicationRunner {
         m1.setUsername("klaus123");
         m2.setUsername("bente123");
         m3.setUsername("bo123");
-        Reservation reservation1 = new Reservation(m1, car1, LocalDateTime.now(), LocalDateTime.now());
-        Reservation reservation2 = new Reservation(m2, car2, LocalDateTime.now(), LocalDateTime.now());
-        Reservation reservation3 = new Reservation(m3, car3, LocalDateTime.now(), LocalDateTime.now());
-        Reservation reservation4 = new Reservation(m3, car1, LocalDateTime.now(), LocalDateTime.now());
-        Reservation reservation5 = new Reservation(m1, car3, LocalDateTime.now(), LocalDateTime.now());
-        Reservation reservation6 = new Reservation(m1, car2, LocalDateTime.now(), LocalDateTime.now());
+        Reservation reservation1 = new Reservation(m1, car1, LocalDate.now(), LocalDate.now());
+        Reservation reservation2 = new Reservation(m2, car2, LocalDate.now(), LocalDate.now());
+        Reservation reservation3 = new Reservation(m3, car3, LocalDate.now(), LocalDate.now());
+        Reservation reservation4 = new Reservation(m3, car1, LocalDate.now(), LocalDate.now());
+        Reservation reservation5 = new Reservation(m1, car3, LocalDate.now(), LocalDate.now());
+        Reservation reservation6 = new Reservation(m1, car2, LocalDate.now(), LocalDate.now());
         reservations.add(reservation1);
         reservations.add(reservation2);
         reservations.add(reservation3);
