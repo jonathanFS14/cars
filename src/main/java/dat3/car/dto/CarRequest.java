@@ -6,7 +6,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor //must have for builder annotation
+@AllArgsConstructor
 @Builder
 @ToString
 //@JsonInclude(JsonInclude.Include.NON_NULL)

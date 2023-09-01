@@ -1,10 +1,11 @@
 package dat3.car.service;
 
+import dat3.car.dto.CarRequest;
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
+import dat3.car.entity.Car;
 import dat3.car.entity.Member;
 import dat3.car.repository.MemberRepository;
-import org.glassfish.jaxb.core.v2.TODO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,8 +31,8 @@ class MemberServiceMockitoTest {
         memberService = new MemberService(memberRepository);
     }
 
-    private Member makeMember(String username, String password, String firstName, String lastName, String email, String street, String city, String zip) {
-        Member member = new Member(username, password, firstName, lastName, email, street, city, zip);
+    private Member makeMember(String username, String password, String email, String firstName, String lastName, String street, String city, String zip) {
+        Member member = new Member(username, password, email, firstName, lastName, street, city, zip);
         member.setCreated(LocalDateTime.now());
         member.setEdited(LocalDateTime.now());
         return member;
@@ -40,8 +41,8 @@ class MemberServiceMockitoTest {
     @Test
     public void testGetMembers() {
         // Define a mock behavior
-        Member m1 = makeMember("user1", "pw1", "fn1", "ln1", "email1", "street1", "city1", "zip1");
-        Member m2 = makeMember("user2", "pw2", "fn2", "ln2", "email2", "street2", "city2", "zip2");
+        Member m1 = makeMember("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1");
+        Member m2 = makeMember("user2", "pw2", "email2", "fn2", "ln2", "street2", "city2", "zip2");
         when(memberRepository.findAll()).thenReturn(List.of(m1, m2));
         List<MemberResponse> responses = memberService.getMembers(true);
         // Assertions
@@ -51,7 +52,7 @@ class MemberServiceMockitoTest {
 
     @Test
     public void testFindById() {
-        when(memberRepository.findById("user1")).thenReturn(Optional.of(makeMember("user1", "pw1", "fn1", "ln1", "email1", "street1", "city1", "zip1")));
+        when(memberRepository.findById("user1")).thenReturn(Optional.of(makeMember("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1")));
         MemberResponse response = memberService.findById("user1");
         // Assertions
         assertEquals("user1", response.getUsername());
@@ -62,7 +63,7 @@ class MemberServiceMockitoTest {
     public void testAddMember_UserExists() {
         when(memberRepository.existsById("user1")).thenReturn(true);
         assertThrows(ResponseStatusException.class, () -> {
-            Member existingMember = makeMember("user1", "pw1", "fn1", "ln1", "email1", "street1", "city1", "zip1");
+            Member existingMember = makeMember("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1");
             //Make a MemberRequest with a username that already exists
             MemberRequest mr = new MemberRequest(existingMember);
             memberService.addMember(mr);
@@ -71,7 +72,7 @@ class MemberServiceMockitoTest {
 
     @Test
     public void testAddMember_Success() {
-        Member newMember = makeMember("userNew", "pwn", "fnn", "lnn", "emailn", "streetn", "cityn", "zipn");
+        Member newMember = makeMember("userNew", "pwn", "emailn", "fnn", "lnn", "streetn", "cityn", "zipn");
         when(memberRepository.existsById("userNew")).thenReturn(false);
         when(memberRepository.save(any(Member.class))).thenReturn(newMember);
 
@@ -84,7 +85,17 @@ class MemberServiceMockitoTest {
 
     @Test
     void editMember() {
-        // TODO
+        Member member = makeMember("userNew", "pwn", "emailn", "fnn", "lnn", "streetn", "cityn", "zipn");
+        when(memberRepository.findById("userNew")).thenReturn(Optional.of(member));
+        MemberRequest request = new MemberRequest(member);
+        request.setPassword("pwn2");
+        request.setFirstName("fnn2");
+        assertEquals("pwn", member.getPassword());
+        assertEquals("fnn", member.getFirstName());
+        memberService.editMember(request, "userNew");
+        assertEquals("pwn2", member.getPassword());
+        assertEquals("fnn2", member.getFirstName());
+
     }
 
     @Test
