@@ -7,7 +7,6 @@ import dat3.car.entity.Reservation;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -26,14 +25,14 @@ public class ReservationRequest {
     LocalDate reservationDateEnd;
 
     public static Reservation getReservationEntity (ReservationRequest r){
-        return new Reservation(r.getMember(), r.getCar(), r.getReservationDateStart(), r.getReservationDateEnd());
+        return new Reservation(r.getMember(), r.getCar(), r.getReservationDateStart()
+                , r.getReservationDateEnd());
     }
 
     public ReservationRequest(Reservation r){
         this.member = r.getMember();
         this.car = r.getCar();
-        this.reservationDateStart = r.getReservationDateStart();
-        this.reservationDateEnd = r.getReservationDateEnd();
     }
+
 
 }

@@ -2,8 +2,12 @@ package dat3.car.service;
 
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
+import dat3.car.dto.ReservationResponse;
+import dat3.car.entity.Car;
 import dat3.car.entity.Member;
+import dat3.car.entity.Reservation;
 import dat3.car.repository.MemberRepository;
+import dat3.car.repository.ReservationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -16,26 +20,25 @@ import java.util.List;
 public class MemberService {
 
     MemberRepository memberRepository;
+    ReservationRepository reservationRepository;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, ReservationRepository reservationRepository) {
         this.memberRepository = memberRepository;
+        this.reservationRepository = reservationRepository;
     }
-
-
-   /* public List<MemberResponse> getMembers(boolean includeAll) {
-        List<MemberResponse> response = new ArrayList<>();
-        List<Member> members = memberRepository.findAll();
-        for(Member member: members){
-            MemberResponse mr = new MemberResponse(member, includeAll);
-            response.add(mr);
-        }
-       return response;
-    }*/
 
     public List<MemberResponse> getMembers(boolean includeAll) {
         List<Member> members = memberRepository.findAll();
         List<MemberResponse> response =
                 members.stream().map(( (member) -> new MemberResponse(member, includeAll))).toList();
+        for (MemberResponse memberResponse: response) {
+            List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(memberResponse.getUsername());
+            List<ReservationResponse> reservationResponses =
+                    reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Car()))).toList();
+            for (ReservationResponse reservationResponse: reservationResponses) {
+                memberResponse.addReservation(reservationResponse);
+            }
+        }
         return response;
     }
 
@@ -66,7 +69,14 @@ public class MemberService {
 
     public MemberResponse findById(String username) {
         Member member = getMemberByUsername(username);
-        return new MemberResponse(member, true);
+        MemberResponse response = new MemberResponse(member, true);
+        List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(username);
+        List<ReservationResponse> reservationResponses =
+                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Car()))).toList();
+        for (ReservationResponse reservationResponse: reservationResponses) {
+            response.addReservation(reservationResponse);
+        }
+        return response;
     }
 
     public void deleteMember(String username) {

@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /*
@@ -25,9 +26,9 @@ OBSERVE --> The base class is not an entity by itself and is NEVER used directly
 public abstract class AdminDetails {
     @CreationTimestamp
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
-    protected LocalDateTime created;
+    protected LocalDate created;
     @JsonFormat(pattern = "yyyy-MM-dd", shape = JsonFormat.Shape.STRING)
     @UpdateTimestamp
-    protected LocalDateTime edited;
+    protected LocalDate edited;
 }
 

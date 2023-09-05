@@ -12,6 +12,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,13 +30,13 @@ class MemberServiceMockitoTest {
     private MemberRepository memberRepository;
     @BeforeEach
     void setUp() {
-        memberService = new MemberService(memberRepository);
+        memberService = new MemberService(memberRepository, null);
     }
 
     private Member makeMember(String username, String password, String email, String firstName, String lastName, String street, String city, String zip) {
         Member member = new Member(username, password, email, firstName, lastName, street, city, zip);
-        member.setCreated(LocalDateTime.now());
-        member.setEdited(LocalDateTime.now());
+        member.setCreated(LocalDate.now());
+        member.setEdited(LocalDate.now());
         return member;
     }
 

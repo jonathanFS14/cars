@@ -2,6 +2,7 @@ package dat3.car.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dat3.car.entity.Car;
 import dat3.car.entity.Member;
 import dat3.car.entity.Reservation;
 import lombok.*;
@@ -27,11 +28,10 @@ public class ReservationResponse {
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     LocalDate reservationDateEnd;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
-    LocalDateTime created;
+    LocalDate created;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
-    LocalDateTime edited;
+    LocalDate edited;
 
-    //Convert Reservation Entity to Reservation DTO
     public ReservationResponse(Reservation r, boolean includeAll, boolean includeAllMember, boolean includeAllCar) {
         this.member = new MemberResponse(r.getMember(), includeAllMember);
         this.car = new CarResponse(r.getCar(), includeAllCar);
@@ -44,4 +44,26 @@ public class ReservationResponse {
         }
     }
 
+    // this is used for when I want to print the reservation inside members reservation list, I already have the member
+    public ReservationResponse(Reservation r, boolean includeAll, boolean includeAllCar, Car car) {
+        this.car = new CarResponse(r.getCar(), includeAllCar);
+        this.reservationDateStart = r.getReservationDateStart();
+        this.reservationDateEnd = r.getReservationDateEnd();
+        if(includeAll){
+            this.id = r.getId();
+            this.created = r.getCreated();
+            this.edited = r.getEdited();
+        }
+    }
+
+    public ReservationResponse(Reservation r, boolean includeAll, boolean includeAllMember, Member member) {
+        this.member = new MemberResponse(r.getMember(), includeAllMember);
+        this.reservationDateStart = r.getReservationDateStart();
+        this.reservationDateEnd = r.getReservationDateEnd();
+        if(includeAll){
+            this.id = r.getId();
+            this.created = r.getCreated();
+            this.edited = r.getEdited();
+        }
+    }
 }

@@ -20,7 +20,7 @@ class MemberController {
     //Security admin
     @GetMapping
     List<MemberResponse> getMembers(){
-        return memberService.getMembers(/*include all fields*/false);
+        return memberService.getMembers(/*include all fields*/true);
     }
 
     //Security admin

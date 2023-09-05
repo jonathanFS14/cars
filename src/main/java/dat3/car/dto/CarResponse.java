@@ -4,7 +4,11 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dat3.car.entity.Car;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -12,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @ToString
-//@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class CarResponse {
 
     Integer id;
@@ -21,9 +25,10 @@ public class CarResponse {
     Double pricePrDay;
     Integer bestDiscount;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
-    LocalDateTime created;
+    LocalDate created;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
-    LocalDateTime edited;
+    LocalDate edited;
+    List<ReservationResponse> reservations;
 
     public CarResponse (Car car, boolean includeAll){
         this.brand = car.getBrand();
@@ -34,6 +39,11 @@ public class CarResponse {
             this.edited = car.getEdited();
             this.pricePrDay = car.getPricePrDay();
             this.bestDiscount = car.getBestDiscount();
+            this.reservations = new ArrayList<>();
         }
+    }
+
+    public void addReservation(ReservationResponse reservation) {
+        reservations.add(reservation);
     }
 }

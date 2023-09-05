@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,20 +31,20 @@ class MemberServiceH2Test {
     void setUp() {
         m1 = memberRepository.save(new Member("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1"));
         m2 = memberRepository.save(new Member("user2", "pw2", "email1", "fn2", "ln2", "street2", "city2", "zip2"));
-        memberService = new MemberService(memberRepository); //Set up memberService with the mock (H2) database
+        memberService = new MemberService(memberRepository, null); //Set up memberService with the mock (H2) database
     }
 
     @Test
     void testGetMembersAllDetails() {
         List<MemberResponse> memberResponses = memberService.getMembers(true);
-        LocalDateTime time = memberResponses.get(0).getCreated();
+        LocalDate time = memberResponses.get(0).getCreated();
         assertNotNull(time, "expects date to be set when true is passed for getmembers");
     }
 
     @Test
     void testGetMembersNoDetails() {
         List<MemberResponse> memberResponses = memberService.getMembers(false);
-        LocalDateTime time = memberResponses.get(0).getCreated();
+        LocalDate time = memberResponses.get(0).getCreated();
         assertNull(time, "expects date to not be set when false is passed for getmembers");
     }
 

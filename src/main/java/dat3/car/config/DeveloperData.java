@@ -55,16 +55,15 @@ public class DeveloperData implements ApplicationRunner {
         memberRepository.saveAll(memberList);
 
         List<Reservation> reservations = new ArrayList<>();
-        Car car1 = new Car();
+        Car car1 = new Car("b1", "m3", 100, 10);
         car1.setId(1);
         Car car2 = new Car();
         car2.setId(2);
         Car car3 = new Car();
         car3.setId(3);
-        Member m1 = new Member();
+        Member m1 = new Member("klaus123", "1234", "klaus@hotmail.dk", "klaus", "klausen", "klausvej12", "københavn", "2350");
         Member m2 = new Member();
         Member m3 = new Member();
-        m1.setUsername("klaus123");
         m2.setUsername("bente123");
         m3.setUsername("bo123");
         Reservation reservation1 = new Reservation(m1, car1, LocalDate.now(), LocalDate.now());

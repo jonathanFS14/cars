@@ -11,6 +11,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,14 +30,14 @@ public class CarServiceMockitoTest {
 
     @BeforeEach
     void setUp() {
-        carService = new CarService(carRepository);
+        carService = new CarService(carRepository, null);
     }
 
     private Car makeCar(int id, String brand, String model, double pricePrDay, int bestDiscount) {
         Car car = new Car(brand, model, pricePrDay, bestDiscount);
         car.setId(id);
-        car.setCreated(LocalDateTime.now());
-        car.setEdited(LocalDateTime.now());
+        car.setCreated(LocalDate.now());
+        car.setEdited(LocalDate.now());
         return car;
     }
 

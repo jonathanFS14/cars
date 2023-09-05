@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,14 +32,14 @@ class CarServiceH2Test {
     void setUp() {
         c1 = carRepository.save(new Car("brand1", "model1", 100, 10));
         c2 = carRepository.save(new Car("brand2", "model2", 200, 20));
-        carService = new CarService(carRepository);
+        carService = new CarService(carRepository, null);
     }
 
     @Test
     void getCarsAllDetails() {
         List<CarResponse> CarResponse = carService.getCars(true);
         Integer id = CarResponse.get(0).getId();
-        LocalDateTime created = CarResponse.get(0).getCreated();
+        LocalDate created = CarResponse.get(0).getCreated();
         assertNotNull(id);
         assertNotNull(created);
     }
@@ -47,7 +48,7 @@ class CarServiceH2Test {
     void getCarsNoDetails() {
         List<CarResponse> CarResponse = carService.getCars(false);
         Integer id = CarResponse.get(0).getId();
-        LocalDateTime created = CarResponse.get(0).getCreated();
+        LocalDate created = CarResponse.get(0).getCreated();
         assertNull(id);
         assertNull(created);
     }

@@ -29,7 +29,7 @@ public class Member extends AdminDetails {
     private int ranking;
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
-    private List<Reservation> reservations = new ArrayList<>();
+    private List<Reservation> reservations;
 
     public Member(String user, String password, String email, String firstName,
                   String lastName, String street, String city, String zip) {
@@ -41,6 +41,11 @@ public class Member extends AdminDetails {
         this.street = street;
         this.city = city;
         this.zip = zip;
+        this.reservations = new ArrayList<>();
+    }
+
+    public void addReservation(Reservation reservation){
+        reservations.add(reservation);
     }
 
 }
