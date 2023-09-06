@@ -2,7 +2,6 @@ package dat3.car.service;
 
 import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
-import dat3.car.dto.MemberResponse;
 import dat3.car.dto.ReservationResponse;
 import dat3.car.entity.Car;
 import dat3.car.entity.Member;
@@ -14,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,7 +20,7 @@ public class CarService {
 
     CarRepository carRepository;
     ReservationRepository reservationRepository;
-    public CarService(CarRepository carRepository,  ReservationRepository reservationRepository) {
+    public CarService(CarRepository carRepository, ReservationRepository reservationRepository) {
         this.carRepository = carRepository;
         this.reservationRepository = reservationRepository;
     }
@@ -30,11 +28,11 @@ public class CarService {
     public List<CarResponse> getCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
         List<CarResponse> response =
-                cars.stream().map(( (Car) -> new CarResponse(Car, includeAll))).toList();
+                cars.stream().map(( (Car) -> new CarResponse(Car, includeAll, true))).toList();
         for (CarResponse carResponse: response) {
             List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(carResponse.getId());
             List<ReservationResponse> reservationResponses =
-                    reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Member()))).toList();
+                    reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, false, new Member()))).toList();
             for (ReservationResponse reservationResponse: reservationResponses) {
                 carResponse.addReservation(reservationResponse);
             }
@@ -44,7 +42,7 @@ public class CarService {
 
     public CarResponse findById(int id) {
         Car car = getCarById(id);
-        CarResponse response = new CarResponse(car, true);
+        CarResponse response = new CarResponse(car, true, true);
         List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(response.getId());
         List<ReservationResponse> reservationResponses =
                 reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Member()))).toList();
@@ -57,7 +55,7 @@ public class CarService {
     public CarResponse addCar(CarRequest body) {
         Car newcar = CarRequest.getCarEntity(body);
         newcar = carRepository.save(newcar);
-        return new CarResponse(newcar, true);
+        return new CarResponse(newcar, true, false);
     }
 
     public ResponseEntity<Boolean> editCar(CarRequest body, int id) {

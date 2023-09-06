@@ -36,8 +36,12 @@ public class Car extends AdminDetails {
         this.model = model;
         this.pricePrDay = pricePrDay;
         this.bestDiscount = bestDiscount;
-        this.reservations = new ArrayList<>();
     }
 
+    public void addReservation(Reservation reservation){
+        if (reservations == null)
+            reservations = new ArrayList<>();
+        reservations.add(reservation);
+    }
 
 }

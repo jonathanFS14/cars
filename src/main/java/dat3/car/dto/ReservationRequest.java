@@ -17,22 +17,18 @@ import java.time.LocalDate;
 //@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ReservationRequest {
 
-    Member member;
-    Car car;
+    String username;
+    int carId;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     LocalDate reservationDateStart;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     LocalDate reservationDateEnd;
 
-    public static Reservation getReservationEntity (ReservationRequest r){
-        return new Reservation(r.getMember(), r.getCar(), r.getReservationDateStart()
-                , r.getReservationDateEnd());
-    }
-
     public ReservationRequest(Reservation r){
-        this.member = r.getMember();
-        this.car = r.getCar();
+        this.username = r.getMember().getUsername();
+        this.carId = r.getCar().getId();
+        this.reservationDateStart = r.getReservationDateStart();
+        this.reservationDateEnd = r.getReservationDateEnd();
     }
-
 
 }

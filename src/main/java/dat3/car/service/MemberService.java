@@ -30,7 +30,7 @@ public class MemberService {
     public List<MemberResponse> getMembers(boolean includeAll) {
         List<Member> members = memberRepository.findAll();
         List<MemberResponse> response =
-                members.stream().map(( (member) -> new MemberResponse(member, includeAll))).toList();
+                members.stream().map(( (member) -> new MemberResponse(member, includeAll, true))).toList();
         for (MemberResponse memberResponse: response) {
             List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(memberResponse.getUsername());
             List<ReservationResponse> reservationResponses =
@@ -48,7 +48,7 @@ public class MemberService {
         }
         Member newMember = MemberRequest.getMemberEntity(body);
         newMember = memberRepository.save(newMember);
-        return new MemberResponse(newMember, true);
+        return new MemberResponse(newMember, true, false);
     }
 
     public ResponseEntity<Boolean> editMember(MemberRequest body, String username) {
@@ -69,7 +69,7 @@ public class MemberService {
 
     public MemberResponse findById(String username) {
         Member member = getMemberByUsername(username);
-        MemberResponse response = new MemberResponse(member, true);
+        MemberResponse response = new MemberResponse(member, true, true);
         List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(username);
         List<ReservationResponse> reservationResponses =
                 reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Car()))).toList();

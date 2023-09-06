@@ -30,7 +30,7 @@ public class CarResponse {
     LocalDate edited;
     List<ReservationResponse> reservations;
 
-    public CarResponse (Car car, boolean includeAll){
+    public CarResponse (Car car, boolean includeAll, boolean includeReservations){
         this.brand = car.getBrand();
         this.model = car.getModel();
         if (includeAll){
@@ -39,6 +39,8 @@ public class CarResponse {
             this.edited = car.getEdited();
             this.pricePrDay = car.getPricePrDay();
             this.bestDiscount = car.getBestDiscount();
+        }
+        if(includeReservations){
             this.reservations = new ArrayList<>();
         }
     }

@@ -41,10 +41,11 @@ public class Member extends AdminDetails {
         this.street = street;
         this.city = city;
         this.zip = zip;
-        this.reservations = new ArrayList<>();
     }
 
     public void addReservation(Reservation reservation){
+        if (reservations == null)
+            reservations = new ArrayList<>();
         reservations.add(reservation);
     }
 

@@ -4,6 +4,7 @@ import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.entity.Car;
 import dat3.car.repository.CarRepository;
+import dat3.car.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,13 +24,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CarServiceMockitoTest {
 
-    private CarService carService;
+    CarService carService;
     @Mock
-    private CarRepository carRepository;
+    CarRepository carRepository;
+    ReservationRepository reservationRepository;
 
     @BeforeEach
     void setUp() {
-        carService = new CarService(carRepository, null);
+        carService = new CarService(carRepository, reservationRepository);
     }
 
     private Car makeCar(int id, String brand, String model, double pricePrDay, int bestDiscount) {

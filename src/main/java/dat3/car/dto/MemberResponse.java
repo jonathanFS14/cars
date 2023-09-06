@@ -36,7 +36,7 @@ public class MemberResponse {
     List<ReservationResponse> reservations;
 
     //Convert Member Entity to Member DTO
-    public MemberResponse(Member m, boolean includeAll) {
+    public MemberResponse(Member m, boolean includeAll, boolean includeReservations) {
         this.username = m.getUsername();
         this.email = m.getEmail();
         this.street = m.getStreet();
@@ -49,6 +49,8 @@ public class MemberResponse {
             this.edited = m.getEdited();
             this.approved = m.isApproved();
             this.ranking = m.getRanking();
+        }
+        if(includeReservations){
             this.reservations = new ArrayList<>();
         }
     }

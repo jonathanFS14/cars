@@ -4,33 +4,44 @@ import dat3.car.dto.CarResponse;
 import dat3.car.dto.ReservationRequest;
 import dat3.car.dto.ReservationResponse;
 import dat3.car.entity.Car;
+import dat3.car.entity.Member;
 import dat3.car.entity.Reservation;
 import dat3.car.repository.CarRepository;
+import dat3.car.repository.MemberRepository;
 import dat3.car.repository.ReservationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
 public class ReservationService {
 
     ReservationRepository reservationRepository;
+    MemberRepository memberRepository;
+    CarRepository carRepository;
 
-    public ReservationService(ReservationRepository reservationRepository) {
+    public ReservationService(CarRepository carRepository, MemberRepository memberRepository, ReservationRepository reservationRepository) {
+        this.carRepository = carRepository;
+        this.memberRepository = memberRepository;
         this.reservationRepository = reservationRepository;
     }
 
 
     public ReservationResponse addReservation(ReservationRequest body) {
+        Member member = memberRepository.findById(body.getUsername()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No member with this id found"));
+        Car car = carRepository.findById(body.getCarId()).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"No Car with this id found"));
         if (body.getReservationDateStart().isAfter(body.getReservationDateEnd())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date must be before end date");
         }
-        if (body.getReservationDateStart().isBefore(java.time.LocalDate.now())) {
+        if (body.getReservationDateStart().isBefore(LocalDate.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date must be after today");
         }
-         List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(body.getCar().getId());
+         List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(body.getCarId());
         if (!reservations.isEmpty()) {
             for (Reservation r : reservations) {
                 if (body.getReservationDateStart().isBefore(r.getReservationDateEnd()) &&
@@ -38,13 +49,12 @@ public class ReservationService {
                         body.getReservationDateStart() == r.getReservationDateStart() ||
                         body.getReservationDateEnd() == r.getReservationDateEnd()
                 ) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is already reserved in this period");
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is reserved in this period");
                 }
             }
         }
-        Reservation newReservation = ReservationRequest.getReservationEntity(body);
-        reservationRepository.save(newReservation);
-        return new ReservationResponse(newReservation, true, true, true);
+        Reservation res = reservationRepository.save(new Reservation(member,car,body.getReservationDateStart(), body.getReservationDateEnd()));
+        return  new ReservationResponse(res, false, false, car);
     }
 
     public List<ReservationResponse> getReservations() {

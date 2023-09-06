@@ -34,5 +34,7 @@ public class Reservation extends AdminDetails {
         this.car = car;
         this.reservationDateStart = reservationDateStart;
         this.reservationDateEnd = reservationDateEnd;
+        car.addReservation(this);
+        member.addReservation(this);
     }
 }

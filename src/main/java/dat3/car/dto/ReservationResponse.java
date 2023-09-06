@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Getter
 @Setter
@@ -33,8 +34,8 @@ public class ReservationResponse {
     LocalDate edited;
 
     public ReservationResponse(Reservation r, boolean includeAll, boolean includeAllMember, boolean includeAllCar) {
-        this.member = new MemberResponse(r.getMember(), includeAllMember);
-        this.car = new CarResponse(r.getCar(), includeAllCar);
+        this.member = new MemberResponse(r.getMember(), includeAllMember, false);
+        this.car = new CarResponse(r.getCar(), includeAllCar, false);
         this.reservationDateStart = r.getReservationDateStart();
         this.reservationDateEnd = r.getReservationDateEnd();
         if(includeAll){
@@ -46,7 +47,7 @@ public class ReservationResponse {
 
     // this is used for when I want to print the reservation inside members reservation list, I already have the member
     public ReservationResponse(Reservation r, boolean includeAll, boolean includeAllCar, Car car) {
-        this.car = new CarResponse(r.getCar(), includeAllCar);
+        this.car = new CarResponse(r.getCar(), includeAllCar, false);
         this.reservationDateStart = r.getReservationDateStart();
         this.reservationDateEnd = r.getReservationDateEnd();
         if(includeAll){
@@ -57,7 +58,7 @@ public class ReservationResponse {
     }
 
     public ReservationResponse(Reservation r, boolean includeAll, boolean includeAllMember, Member member) {
-        this.member = new MemberResponse(r.getMember(), includeAllMember);
+        this.member = new MemberResponse(r.getMember(), includeAllMember, false);
         this.reservationDateStart = r.getReservationDateStart();
         this.reservationDateEnd = r.getReservationDateEnd();
         if(includeAll){

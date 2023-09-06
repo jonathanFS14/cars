@@ -4,6 +4,7 @@ import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
 import dat3.car.entity.Member;
 import dat3.car.repository.MemberRepository;
+import dat3.car.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ class MemberServiceH2Test {
     @Autowired
     MemberRepository memberRepository;
     MemberService memberService;
+    ReservationRepository reservationRepository;
 
     Member m1, m2;
 
@@ -31,7 +33,7 @@ class MemberServiceH2Test {
     void setUp() {
         m1 = memberRepository.save(new Member("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1"));
         m2 = memberRepository.save(new Member("user2", "pw2", "email1", "fn2", "ln2", "street2", "city2", "zip2"));
-        memberService = new MemberService(memberRepository, null); //Set up memberService with the mock (H2) database
+        memberService = new MemberService(memberRepository,reservationRepository); //Set up memberService with the mock (H2) database
     }
 
     @Test
