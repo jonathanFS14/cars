@@ -15,8 +15,8 @@
   
 -  What is the advantage of using DTOs to separate api from data structure when designing rest endpoints
 
-  sikkerhed er en af fordelene fordi man kan skelne mellem hvilke informationer brugerne kan få ud af systemet. api'et bliver mere læsbart da man adskiller
-  koden og får et mere tydeligt billede af hvad der sker under maskine rummet. 
+   sikkerhed er en af fordelene fordi man kan skelne mellem hvilke informationer brugerne kan få ud af systemet. api'et bliver mere læsbart da man adskiller
+   koden og får et mere tydeligt billede af hvad der sker under maskine rummet. 
   
 - Explain shortly the concept mocking in relation to software testing
 
@@ -43,7 +43,7 @@
   
 -  Understand and chose cloud service models (IaaS, PaaS, SaaS, DBaaS)for your projects -> Just explain what you have used for this handin
 
-  azure er infrastruktur som service og database som en service
-  github er software som en service
+   azure er infrastruktur som service og database som en service
+   github er software som en service
 
   
