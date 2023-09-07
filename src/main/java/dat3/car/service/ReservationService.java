@@ -41,20 +41,20 @@ public class ReservationService {
         if (body.getReservationDateStart().isBefore(LocalDate.now())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Start date must be after today");
         }
-         List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(body.getCarId());
+         List<Reservation> reservations = reservationRepository.findReservationsByCarId(body.getCarId());
         if (!reservations.isEmpty()) {
             for (Reservation r : reservations) {
                 if (body.getReservationDateStart().isBefore(r.getReservationDateEnd()) &&
                         body.getReservationDateEnd().isAfter(r.getReservationDateStart()) ||
-                        body.getReservationDateStart() == r.getReservationDateStart() ||
-                        body.getReservationDateEnd() == r.getReservationDateEnd()
+                        body.getReservationDateStart().isEqual(r.getReservationDateStart()) ||
+                        body.getReservationDateEnd().isEqual(r.getReservationDateEnd())
                 ) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car is reserved in this period");
                 }
             }
         }
         Reservation res = reservationRepository.save(new Reservation(member,car,body.getReservationDateStart(), body.getReservationDateEnd()));
-        return  new ReservationResponse(res, false, false, car);
+        return  new ReservationResponse(res, true, false, false);
     }
 
     public List<ReservationResponse> getReservations() {

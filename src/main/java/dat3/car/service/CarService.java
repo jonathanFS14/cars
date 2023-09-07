@@ -30,7 +30,7 @@ public class CarService {
         List<CarResponse> response =
                 cars.stream().map(( (Car) -> new CarResponse(Car, includeAll, true))).toList();
         for (CarResponse carResponse: response) {
-            List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(carResponse.getId());
+            List<Reservation> reservations = reservationRepository.findReservationsByCarId(carResponse.getId());
             List<ReservationResponse> reservationResponses =
                     reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, false, new Member()))).toList();
             for (ReservationResponse reservationResponse: reservationResponses) {
@@ -43,7 +43,7 @@ public class CarService {
     public CarResponse findById(int id) {
         Car car = getCarById(id);
         CarResponse response = new CarResponse(car, true, true);
-        List<Reservation> reservations = reservationRepository.findReservationsByCar_Id(response.getId());
+        List<Reservation> reservations = reservationRepository.findReservationsByCarId(response.getId());
         List<ReservationResponse> reservationResponses =
                 reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Member()))).toList();
         for (ReservationResponse reservationResponse: reservationResponses) {
