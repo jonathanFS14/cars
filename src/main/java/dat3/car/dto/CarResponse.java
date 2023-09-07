@@ -3,6 +3,7 @@ package dat3.car.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import dat3.car.entity.Car;
+import dat3.car.entity.Member;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -41,7 +42,7 @@ public class CarResponse {
             this.bestDiscount = car.getBestDiscount();
         }
         if(includeReservations){
-            this.reservations = new ArrayList<>();
+            this.reservations = car.getReservations().stream().map(r -> new ReservationResponse(r, false, false, new Member())).toList();
         }
     }
 

@@ -2,6 +2,7 @@ package dat3.car.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import dat3.car.entity.Car;
 import dat3.car.entity.Member;
 import dat3.car.entity.Reservation;
 import lombok.*;
@@ -51,7 +52,7 @@ public class MemberResponse {
             this.ranking = m.getRanking();
         }
         if(includeReservations){
-            this.reservations = new ArrayList<>();
+            this.reservations = m.getReservations().stream().map(r -> new ReservationResponse(r, false, false, new Car())).toList();
         }
     }
 

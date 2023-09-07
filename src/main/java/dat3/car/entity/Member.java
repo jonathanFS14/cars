@@ -25,17 +25,18 @@ public class Member extends UserWithRoles {
     private boolean approved;
     private int ranking;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER)
     private List<Reservation> reservations;
 
-    public Member(String user, String password, String email, String firstName,
+    public Member(String username, String password, String email, String firstName,
                   String lastName, String street, String city, String zip) {
-        super(user, password, email);
+        super(username, password, email);
         this.firstName = firstName;
         this.lastName = lastName;
         this.street = street;
         this.city = city;
         this.zip = zip;
+        this.reservations = new ArrayList<>();
     }
 
     public void addReservation(Reservation reservation){

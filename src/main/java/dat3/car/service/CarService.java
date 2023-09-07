@@ -19,36 +19,20 @@ import java.util.List;
 public class CarService {
 
     CarRepository carRepository;
-    ReservationRepository reservationRepository;
-    public CarService(CarRepository carRepository, ReservationRepository reservationRepository) {
+    public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
-        this.reservationRepository = reservationRepository;
     }
 
     public List<CarResponse> getCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
         List<CarResponse> response =
                 cars.stream().map(( (Car) -> new CarResponse(Car, includeAll, true))).toList();
-        for (CarResponse carResponse: response) {
-            List<Reservation> reservations = reservationRepository.findReservationsByCarId(carResponse.getId());
-            List<ReservationResponse> reservationResponses =
-                    reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, false, new Member()))).toList();
-            for (ReservationResponse reservationResponse: reservationResponses) {
-                carResponse.addReservation(reservationResponse);
-            }
-        }
         return response;
     }
 
     public CarResponse findById(int id) {
         Car car = getCarById(id);
         CarResponse response = new CarResponse(car, true, true);
-        List<Reservation> reservations = reservationRepository.findReservationsByCarId(response.getId());
-        List<ReservationResponse> reservationResponses =
-                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Member()))).toList();
-        for (ReservationResponse reservationResponse: reservationResponses) {
-            response.addReservation(reservationResponse);
-        }
         return response;
     }
 

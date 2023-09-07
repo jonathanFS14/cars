@@ -25,7 +25,6 @@ class CarServiceH2Test {
 
     @Autowired
     CarRepository carRepository;
-    ReservationRepository reservationRepository;
     CarService carService;
 
     Car c1, c2;
@@ -34,7 +33,7 @@ class CarServiceH2Test {
     void setUp() {
         c1 = carRepository.save(new Car("brand1", "model1", 100, 10));
         c2 = carRepository.save(new Car("brand2", "model2", 200, 20));
-        carService = new CarService(carRepository, reservationRepository);
+        carService = new CarService(carRepository);
     }
 
     @Test

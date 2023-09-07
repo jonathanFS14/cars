@@ -20,25 +20,15 @@ import java.util.List;
 public class MemberService {
 
     MemberRepository memberRepository;
-    ReservationRepository reservationRepository;
 
-    public MemberService(MemberRepository memberRepository, ReservationRepository reservationRepository) {
+    public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
-        this.reservationRepository = reservationRepository;
     }
 
     public List<MemberResponse> getMembers(boolean includeAll) {
         List<Member> members = memberRepository.findAll();
         List<MemberResponse> response =
                 members.stream().map(( (member) -> new MemberResponse(member, includeAll, true))).toList();
-        for (MemberResponse memberResponse: response) {
-            List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(memberResponse.getUsername());
-            List<ReservationResponse> reservationResponses =
-                    reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Car()))).toList();
-            for (ReservationResponse reservationResponse: reservationResponses) {
-                memberResponse.addReservation(reservationResponse);
-            }
-        }
         return response;
     }
 
@@ -69,14 +59,7 @@ public class MemberService {
 
     public MemberResponse findById(String username) {
         Member member = getMemberByUsername(username);
-        MemberResponse response = new MemberResponse(member, true, true);
-        List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(username);
-        List<ReservationResponse> reservationResponses =
-                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, false, false, new Car()))).toList();
-        for (ReservationResponse reservationResponse: reservationResponses) {
-            response.addReservation(reservationResponse);
-        }
-        return response;
+        return new MemberResponse(member, true, true);
     }
 
     public void deleteMember(String username) {

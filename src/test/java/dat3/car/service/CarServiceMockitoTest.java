@@ -27,11 +27,10 @@ public class CarServiceMockitoTest {
     CarService carService;
     @Mock
     CarRepository carRepository;
-    ReservationRepository reservationRepository;
 
     @BeforeEach
     void setUp() {
-        carService = new CarService(carRepository, reservationRepository);
+        carService = new CarService(carRepository);
     }
 
     private Car makeCar(int id, String brand, String model, double pricePrDay, int bestDiscount) {

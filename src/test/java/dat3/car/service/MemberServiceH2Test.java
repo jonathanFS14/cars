@@ -25,15 +25,14 @@ class MemberServiceH2Test {
     @Autowired
     MemberRepository memberRepository;
     MemberService memberService;
-    ReservationRepository reservationRepository;
 
     Member m1, m2;
 
     @BeforeEach
     void setUp() {
         m1 = memberRepository.save(new Member("user1", "pw1", "email1", "fn1", "ln1", "street1", "city1", "zip1"));
-        m2 = memberRepository.save(new Member("user2", "pw2", "email1", "fn2", "ln2", "street2", "city2", "zip2"));
-        memberService = new MemberService(memberRepository,reservationRepository); //Set up memberService with the mock (H2) database
+        m2 = memberRepository.save(new Member("user2", "pw2", "email11", "fn2", "ln2", "street2", "city2", "zip2"));
+        memberService = new MemberService(memberRepository); //Set up memberService with the mock (H2) database
     }
 
     @Test
