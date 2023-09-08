@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -46,6 +48,25 @@ class CarRepositoryTest {
     void findByNameLike() {
         Car c2 = carRepository.findByModelLike("%antra%");
         assertEquals("elantra", c2.getModel());
+    }
+
+    @Test
+    void findByModelAndBrand(){
+        Car c1 = carRepository.findByModelAndBrand("camry", "ford");
+        assertEquals("ford", c1.getBrand());
+        assertEquals("camry", c1.getModel());
+    }
+
+    @Test
+    public void testFindCarsNotReserved() {
+        List<Car> cars = carRepository.findByReservationsIsEmpty();
+        assertEquals(2, cars.size());
+    }
+
+    @Test
+    public void testFindAveragePricePerDay() {
+        Double avgPrice = carRepository.findAveragePricePerDay();
+        assertEquals(57.5, avgPrice);
     }
 
 }

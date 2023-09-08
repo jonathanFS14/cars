@@ -10,7 +10,9 @@ public interface CarRepository extends JpaRepository<Car, Integer> {
 
     Car findByBrand(String brand);
     Car findByModelLike(String model);
-    //mangler test
-    Car findByModelLikeAndBrand(String model, String brand);
+    Car findByModelAndBrand(String model, String brand);
+    List<Car> findByReservationsIsEmpty();
 
+    @Query(value = "SELECT AVG(c.rental_price_day) FROM car c", nativeQuery = true)
+    Double findAveragePricePerDay();
 }

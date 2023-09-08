@@ -12,9 +12,5 @@ import java.util.List;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
-    List<Reservation> findReservationsByMember_Username(String member_username);
-    List<Reservation> findReservationsByCarId(int carId);
 
-    boolean existsByCar_IdAndReservationDateStart(int id, LocalDate date);
-    boolean existsByCar_IdAndReservationDateEnd(int id, LocalDate date);
 }

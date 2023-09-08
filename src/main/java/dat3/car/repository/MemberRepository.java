@@ -12,6 +12,7 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<Member, String> {
 
     List<Member> findAllByApprovedTrue();
+    List<Member> findByReservationsIsNotEmpty();
 
 
 }
