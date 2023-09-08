@@ -18,9 +18,9 @@ public class Reservation extends AdminDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     private Member member;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     private Car car;
     @JsonFormat(pattern = "yyyy-MM-dd",shape = JsonFormat.Shape.STRING)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
