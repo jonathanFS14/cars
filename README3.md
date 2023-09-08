@@ -31,8 +31,7 @@
 
 - a few words, explaining what you had to do on your Azure App Service in order to make your Spring Boot App connect to your Azure MySqlDatabase
 
-  deployment har fejlet de sidste par dage, jeg prøver at finde ud af hvorfor.
-  // TODO 
+  
 
 - a few words about where you have used inheritance in your project, and how it's reflected in your database
 

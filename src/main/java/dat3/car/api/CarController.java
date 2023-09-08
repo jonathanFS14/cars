@@ -50,4 +50,9 @@ public class CarController {
         carService.deleteCar(id);
     }
 
+    @GetMapping("/noreservations")
+    List<CarResponse> getCarsWithNoReservation(){
+        return carService.getCarsWithNoReservations(true);
+    }
+
 }

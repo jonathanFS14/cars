@@ -69,4 +69,10 @@ public class CarService {
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this id does not exist"));
     }
 
+    public List<CarResponse> getCarsWithNoReservations(boolean includeAll) {
+        List<Car> cars = carRepository.findByReservationsIsEmpty();
+        List<CarResponse> response = cars.stream().map(( (Car) ->
+                new CarResponse(Car, includeAll, false))).toList();
+        return response;
+    }
 }
