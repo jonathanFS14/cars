@@ -52,9 +52,9 @@ class CarRepositoryTest {
 
     @Test
     void findByModelAndBrand(){
-        Car c1 = carRepository.findByModelAndBrand("camry", "ford");
-        assertEquals("ford", c1.getBrand());
-        assertEquals("camry", c1.getModel());
+        List<Car> cars = carRepository.findByModelIgnoreCaseAndBrandIgnoreCase("camry", "ford");
+        assertEquals("ford", cars.get(0).getBrand());
+        assertEquals("camry", cars.get(0).getModel());
     }
 
     @Test

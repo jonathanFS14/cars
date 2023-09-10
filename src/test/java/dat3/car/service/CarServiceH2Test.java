@@ -106,4 +106,22 @@ class CarServiceH2Test {
                 carService.findById(c1.getId()));
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
+    @Test
+    void findByModelAndBrand(){
+       List<CarResponse> cars = carService.findByModelAndBrand(c1.getModel(), c1.getBrand(), true);
+       assertEquals(c1.getBrand(), cars.get(0).getBrand());
+       assertEquals(c1.getModel(), cars.get(0).getModel());
+    }
+
+    @Test
+    void getCarsWithNoReservations(){
+        List<CarResponse> carResponses = carService.getCarsWithNoReservations(true);
+        assertEquals(2, carResponses.size());
+    }
+
+    @Test
+    void getAveragePriceForAllCars(){
+        Double price = carService.getAveragePriceForAllCars();
+        assertEquals( ( c1.getPricePrDay() + c2.getPricePrDay() ) / 2, price);
+    }
 }

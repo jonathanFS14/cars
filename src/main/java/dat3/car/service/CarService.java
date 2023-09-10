@@ -13,12 +13,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CarService {
 
     CarRepository carRepository;
+
     public CarService(CarRepository carRepository) {
         this.carRepository = carRepository;
     }
@@ -26,7 +28,7 @@ public class CarService {
     public List<CarResponse> getCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
         List<CarResponse> response =
-                cars.stream().map(( (Car) -> new CarResponse(Car, includeAll, true))).toList();
+                cars.stream().map(((Car) -> new CarResponse(Car, includeAll, true))).toList();
         return response;
     }
 
@@ -64,15 +66,25 @@ public class CarService {
         carRepository.delete(car);
     }
 
-    private Car getCarById(int id){
+    private Car getCarById(int id) {
         return carRepository.findById(id).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this id does not exist"));
     }
 
     public List<CarResponse> getCarsWithNoReservations(boolean includeAll) {
         List<Car> cars = carRepository.findByReservationsIsEmpty();
-        List<CarResponse> response = cars.stream().map(( (Car) ->
+        List<CarResponse> response = cars.stream().map(((Car) ->
                 new CarResponse(Car, includeAll, false))).toList();
         return response;
+    }
+
+    public List<CarResponse> findByModelAndBrand(String model, String brand, boolean includeAll) {
+        List<Car> cars = carRepository.findByModelIgnoreCaseAndBrandIgnoreCase(model, brand);
+        return cars.stream().map(((Car) ->
+                new CarResponse(Car, includeAll, false))).toList();
+    }
+
+    public Double getAveragePriceForAllCars(){
+        return carRepository.findAveragePricePerDay();
     }
 }

@@ -55,4 +55,15 @@ public class CarController {
         return carService.getCarsWithNoReservations(true);
     }
 
+    @GetMapping("/modelandbrandlike/{model}/{brand}")
+    List<CarResponse> getCarsWithModelAndBrandLike(@PathVariable String model,@PathVariable String brand){
+        return carService.findByModelAndBrand(model, brand, true);
+    }
+
+    @GetMapping("/averagepriceallcars")
+    Double getAveragePriceForAllCars(){
+        return carService.getAveragePriceForAllCars();
+    }
+
+
 }
