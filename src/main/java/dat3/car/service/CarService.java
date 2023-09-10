@@ -73,6 +73,9 @@ public class CarService {
 
     public List<CarResponse> getCarsWithNoReservations(boolean includeAll) {
         List<Car> cars = carRepository.findByReservationsIsEmpty();
+        if(cars.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "all cars are reserved");
+        }
         List<CarResponse> response = cars.stream().map(((Car) ->
                 new CarResponse(Car, includeAll, false))).toList();
         return response;
@@ -80,6 +83,9 @@ public class CarService {
 
     public List<CarResponse> findByModelAndBrand(String model, String brand, boolean includeAll) {
         List<Car> cars = carRepository.findByModelIgnoreCaseAndBrandIgnoreCase(model, brand);
+        if(cars.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "no car with this specific model or brand");
+        }
         return cars.stream().map(((Car) ->
                 new CarResponse(Car, includeAll, false))).toList();
     }

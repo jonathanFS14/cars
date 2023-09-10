@@ -127,4 +127,11 @@ class MemberServiceH2Test {
                 memberService.deleteMember("12222"));
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
+
+
+    @Test
+    void findMembersWithReservations(){
+        ResponseStatusException exception = assertThrows(ResponseStatusException.class, () -> memberService.findAllUserWithReservations(true));
+        assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
+    }
 }

@@ -28,7 +28,7 @@ public class MemberService {
     public List<MemberResponse> getMembers(boolean includeAll) {
         List<Member> members = memberRepository.findAll();
         List<MemberResponse> response =
-                members.stream().map(( (member) -> new MemberResponse(member, includeAll, true))).toList();
+                members.stream().map(((member) -> new MemberResponse(member, includeAll, true))).toList();
         return response;
     }
 
@@ -73,6 +73,18 @@ public class MemberService {
         memberRepository.save(member);
         return ResponseEntity.ok(true);
     }
+
+    public List<MemberResponse> findAllUserWithReservations(boolean includeAll) {
+        List<Member> members = memberRepository.findByReservationsIsNotEmpty();
+        if (members.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "no member has made a reservation yet");
+        }
+
+        List<MemberResponse> response =
+                members.stream().map(((member) -> new MemberResponse(member, includeAll, true))).toList();
+        return response;
+    }
+
 
     private Member getMemberByUsername(String username) {
         return memberRepository.findById(username).
