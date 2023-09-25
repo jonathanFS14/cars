@@ -28,7 +28,7 @@ public class Car extends AdminDetails {
     @Column( name = "max_discount")
     private Integer bestDiscount;
 
-    @OneToMany(mappedBy = "car", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private List<Reservation> reservations;
 
     public Car (String brand, String model, double pricePrDay, Integer bestDiscount){

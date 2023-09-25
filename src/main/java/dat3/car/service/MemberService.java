@@ -28,7 +28,7 @@ public class MemberService {
     public List<MemberResponse> getMembers(boolean includeAll) {
         List<Member> members = memberRepository.findAll();
         List<MemberResponse> response =
-                members.stream().map(((member) -> new MemberResponse(member, includeAll, true))).toList();
+                members.stream().map(((member) -> new MemberResponse(member, includeAll, false))).toList();
         return response;
     }
 
@@ -59,7 +59,7 @@ public class MemberService {
 
     public MemberResponse findById(String username) {
         Member member = getMemberByUsername(username);
-        return new MemberResponse(member, true, true);
+        return new MemberResponse(member, true, false);
     }
 
     public void deleteMember(String username) {

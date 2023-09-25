@@ -13,5 +13,6 @@ import java.util.List;
 public interface ReservationRepository extends JpaRepository<Reservation, Integer> {
 
 
+    List<Reservation> findByMember(Member member);
 
 }

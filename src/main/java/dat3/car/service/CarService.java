@@ -28,13 +28,13 @@ public class CarService {
     public List<CarResponse> getCars(boolean includeAll) {
         List<Car> cars = carRepository.findAll();
         List<CarResponse> response =
-                cars.stream().map(((Car) -> new CarResponse(Car, includeAll, true))).toList();
+                cars.stream().map(((Car) -> new CarResponse(Car, includeAll, false))).toList();
         return response;
     }
 
     public CarResponse findById(int id) {
         Car car = getCarById(id);
-        CarResponse response = new CarResponse(car, true, true);
+        CarResponse response = new CarResponse(car, true, false);
         return response;
     }
 

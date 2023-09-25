@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("api/reservations")
 public class ReservationController {
 
@@ -22,13 +23,17 @@ public class ReservationController {
     @GetMapping
     List<ReservationResponse> getReservations() {
         return reservationService.getReservations();
-
     }
-
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ReservationResponse addReservation(@RequestBody ReservationRequest body) {
         return reservationService.addReservation(body);
+    }
+
+    @GetMapping("/{userName}")
+    public List<ReservationResponse> getReservationsForUser(@PathVariable String userName){
+        List<ReservationResponse> res = reservationService.getReservationsForUser(userName);
+        return res;
     }
 
 }

@@ -82,4 +82,13 @@ public class ReservationService {
         return reservationRepository.findById(id).
                 orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reservation with this id does not exist"));
     }
+
+    public List<ReservationResponse> getReservationsForUser(String userName) {
+        Member member = memberRepository.findById(userName).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No member with this id found"));
+        List<Reservation> reservations = reservationRepository.findByMember(member);
+        List<ReservationResponse> response =
+                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, false, new Car()))).toList();
+        return response;
+    }
 }

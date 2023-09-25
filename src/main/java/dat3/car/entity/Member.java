@@ -25,7 +25,7 @@ public class Member extends UserWithRoles {
     private boolean approved;
     private int ranking;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Reservation> reservations;
 
     public Member(String username, String password, String email, String firstName,
