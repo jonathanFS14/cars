@@ -66,6 +66,9 @@ public class DeveloperData implements ApplicationRunner {
         Car car3 = new Car();
         car3.setId(3);
         Member m1 = new Member("klaus123", "1234", "klaus@hotmail.dk", "klaus", "klausen", "klausvej12", "københavn", "2350");
+        m1.addRole(Role.ADMIN);
+        m1.addRole(Role.USER);
+        memberRepository.save(m1);
         Member m2 = new Member();
         Member m3 = new Member();
         m2.setUsername("bente123");

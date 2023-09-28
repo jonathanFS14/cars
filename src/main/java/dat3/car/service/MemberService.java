@@ -8,6 +8,7 @@ import dat3.car.entity.Member;
 import dat3.car.entity.Reservation;
 import dat3.car.repository.MemberRepository;
 import dat3.car.repository.ReservationRepository;
+import dat3.security.entity.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,10 @@ public class MemberService {
         if (memberRepository.existsById(body.getUsername())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "This user already exists");
         }
+
         Member newMember = MemberRequest.getMemberEntity(body);
+        newMember.addRole(Role.USER);
+        newMember.addRole(Role.ADMIN);
         newMember = memberRepository.save(newMember);
         return new MemberResponse(newMember, true, false);
     }

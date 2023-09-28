@@ -32,13 +32,13 @@ public class CarResponse {
     List<ReservationResponse> reservations;
 
     public CarResponse (Car car, boolean includeAll, boolean includeReservations){
+        this.id = car.getId();
         this.brand = car.getBrand();
         this.model = car.getModel();
+        this.pricePrDay = car.getPricePrDay();
         if (includeAll){
-            this.id = car.getId();
             this.created = car.getCreated();
             this.edited = car.getEdited();
-            this.pricePrDay = car.getPricePrDay();
             this.bestDiscount = car.getBestDiscount();
         }
         if(includeReservations){

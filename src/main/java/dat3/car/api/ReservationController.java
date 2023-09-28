@@ -6,6 +6,7 @@ import dat3.car.service.ReservationService;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,7 +27,8 @@ public class ReservationController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ReservationResponse addReservation(@RequestBody ReservationRequest body) {
+    ReservationResponse addReservationV2(@RequestBody ReservationRequest body, Principal principal) {
+        body.setUsername(principal.getName());
         return reservationService.addReservation(body);
     }
 
@@ -36,4 +38,10 @@ public class ReservationController {
         return res;
     }
 
-}
+    @GetMapping("/reservations-for-authenticated")
+    public List<ReservationResponse> getReservationsForUser(Principal principal){
+        List<ReservationResponse> res = reservationService.getReservationsForUser(principal.getName());
+        return res;
+    }
+
+    }

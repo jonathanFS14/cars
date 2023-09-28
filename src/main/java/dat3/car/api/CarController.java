@@ -23,10 +23,16 @@ public class CarController {
 
     @GetMapping
     List<CarResponse> getCars(){
+        return carService.getCars(/*include all fields*/false);
+    }
+
+    @GetMapping("/admin")
+    List<CarResponse> getCarsAll(){
         return carService.getCars(/*include all fields*/true);
     }
 
-    @GetMapping(path = "/{id}")
+
+        @GetMapping(path = "/{id}")
     CarResponse getCarById(@PathVariable int id) throws Exception {
         return carService.findById(id);}
 

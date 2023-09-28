@@ -62,7 +62,7 @@ public class ReservationService {
     public List<ReservationResponse> getReservations() {
         List<Reservation> reservations = reservationRepository.findAll();
         List<ReservationResponse> response =
-                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, false, false))).toList();
+                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, true, true))).toList();
         return response;
     }
 
@@ -88,7 +88,7 @@ public class ReservationService {
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No member with this id found"));
         List<Reservation> reservations = reservationRepository.findByMember(member);
         List<ReservationResponse> response =
-                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, false, new Car()))).toList();
+                reservations.stream().map(((reservation) -> new ReservationResponse(reservation, true, true, new Car()))).toList();
         return response;
     }
 }
