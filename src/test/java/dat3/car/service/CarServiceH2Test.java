@@ -48,9 +48,9 @@ class CarServiceH2Test {
     @Test
     void getCarsNoDetails() {
         List<CarResponse> CarResponse = carService.getCars(false);
-        Integer id = CarResponse.get(0).getId();
+        Integer bestDiscount = CarResponse.get(0).getBestDiscount();
         LocalDate created = CarResponse.get(0).getCreated();
-        assertNull(id);
+        assertNull(bestDiscount);
         assertNull(created);
     }
 
