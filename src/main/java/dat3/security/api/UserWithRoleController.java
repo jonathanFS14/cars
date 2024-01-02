@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/user-with-role")
+@CrossOrigin(origins = "*")
 public class UserWithRoleController {
 
   //Take care with this. If no role is required for new users, add null as the value below
